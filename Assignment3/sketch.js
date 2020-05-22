@@ -22,7 +22,7 @@ deltaY(); //map mouse Y position to pupil position
 
 	if ((i<0) && (mouseX < centerEye)) {//mouse is to the left of left Eye and drawing left eye
 		distX = mouseX - centerEye; //how far away is the mouse
-		//mapX = map(distX, -centerEye, 0,  (centerEye - 80), centerEye); //mapping to control moved eye	
+		mapX = map(distX, -centerEye, 0,  (centerEye - 80), centerEye); //mapping to control moved eye	
 		
 		line(pmouseX, pmouseY, centerEye, centery); 
 		for (var y = 0; y<401; y+=400) {  //draw both pupils for mouse to left
@@ -35,14 +35,21 @@ deltaY(); //map mouse Y position to pupil position
 	else if((mouseX>centerx-200) &&(mouseX < centerx+200)) {  //between the eyes
 		line(pmouseX, pmouseY, centerEye, centery); 
 		centerMapX = map(mouseX, centerx-200, centerx+200, 0, 400); //where is the mouse in the gap
-		//mapX=map(centerMapX, 0, 400, 0, 90 ); //map the gap to pupil position within the eye 
-		//drawPupils();
-		//noFill();
+		mapX=map(centerMapX, 0, 400, 0, 90 ); //map the gap to pupil position within the eye 
+		if (i<0) { //drawing left eye
+			mapX+=centerEye;
+		}
+		else if(i>0) {
+			mapX = centerEye - mapX;	
+		}
+		drawPupils();
+		noFill();
+		
 	}//between eyes
 	
 	else if ((i>0) && (mouseX > centerEye)) {//mouse is to the right of the right eye a
 		distX = mouseX - centerEye; //how far away is the mouse
-		//mapX = map(distX, centerEye, 0,  (centerEye + 90), centerEye); //mapping to control moved eye	
+		mapX = map(distX, centerEye, 0,  (centerEye + 90), centerEye); //mapping to control moved eye	
 		ellipse(mapX, centery, 30, 30);
 		line(pmouseX, pmouseY, centerEye, centery); 
 		
@@ -65,18 +72,17 @@ deltaY(); //map mouse Y position to pupil position
 	
 }
 
-function drawPupils(){
+function drawPupils(){  //draw left eye
 	ellipse(mapX, mapY, 80, 80);
 	//noStroke()  //draw the inner circle in colour
-	text(mapX, centerEye, mapY);  //left eye
+	text(mapX, centerEye, mapY);
 	if (i==-200) { //draw the heterochrome effect - left eye
-		mapX = map(distX, -centerEye, 0,  (centerEye - 80), centerEye); //mapping to control moved eye	
+		
 		fill(102, 255, 0);  //bright green fill
 		ellipse(mapX, mapY, 30, 30);
 	
 	}
-	else if(i == 200) {
-		mapX = map(distX, centerEye, 0,  (centerEye + 90), centerEye); //mapping to control moved eye	
+	else if(i == 200) {  //draw right eye
 		fill(65, 105, 225); //bright blue fill
 		ellipse(mapX, mapY, 30, 30);
 		

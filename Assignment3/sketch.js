@@ -1,5 +1,5 @@
 var centerx, centery; centerEye; centerR; i, centerL; distX, distY;  //variables to hold the center xy 
-var mapX, mapY, centerMapX;
+var mapX, mapY, centerMapX, tempmapX;
 function setup() {
 createCanvas(1024, 768); 
 centery = height/2;
@@ -37,21 +37,38 @@ deltaY(); //map mouse Y position to pupil position
 			i+=400; //incrementing the loop counter causes the other pupil to be drawn heterchromatic in the 2nd iteration of
 			//this for loop AND stops the second iteration of the parent for loop
 		}
-		
+	
 	}
 	else if((mouseX>centerx-200) &&(mouseX < centerx+200)) {  //between the eyes
-		line(pmouseX, pmouseY, centerEye, centery); 
-		centerMapX = map(mouseX, centerx-200, centerx+200, 0, 400); //where is the mouse in the gap
-		mapX=map(centerMapX, 0, 400, 0, 90 ); //map the gap to pupil position within the eye 
-		if (i<0) { //drawing left eye
-			mapX+=centerEye;  // append the mapX to the position of center left eye
-		}
-		else if(i>0) {  //move the pupil to the left of the left pupil
-			mapX = (centerEye-90) + mapX;	
-		}
-		drawPupils();
-		noFill();
+		line(pmouseX, pmouseY, centerEye, centery); //testing line between the eyes
+		centerMapX = map(mouseX, centerL, centerR, 0, 400); //map mouse position with center to 0 --> 400 range
+		if (centerMapX <=200) { //if we're to the left or on center of the center-zone 
+			mapX = map(centerMapX, 0, 200, 0, 90 ); //the close the mouse is to center the more converged the pupils should be 
+			//direct mapping because we want maximum pupil displacement when mouse is at center (200)
+		} 
+		else if (centerMapX >200) { //if mouse is to the right of center in the center-zone
+			
+			mapX=map(centerMapX, 201, 400, 90, 0 ); //the close the mouse is to center the more converged the pupils should be 
+			//this relationship is inverted for meximum pupil displacement with mouse at center(200)
+		} 
+		i=-200;  //init i to -200 so that drawPupils() draws the left eye in the first iteration and right in the second
+		tempmapX = mapX; //holds mapX between drawing iterations so it can be reset after the first for() changes it
+		for (i; i<300; i+=400) {
+			if (i==-200) { //when we're drawing the left pupil it should diplace from centerL towards the right
+				text(mapX, mouseX, mapY);
+				mapX +=centerL; //mapX is large as the mouse approaches center  so we add it to center L
+								
+			} 
 		
+			else if(i==200) {  //when we draw the right pupil, it should displace for centerR towards the left
+				mapX = tempmapX; //the first for() changes mapX to displace the left pupil we reset it here
+				text(mapX, mouseX, mapY+20);
+				mapX = (centerR - mapX); //mapX is larger as mouse approaches center so we subtract is from centerR	
+				
+			}
+		drawPupils();
+		noFill();   /** **/
+		}   
 	}//between eyes
 	
 	else if ((mouseX > centerR)) {//mouse is to the right of the right eye a
@@ -88,7 +105,7 @@ deltaY(); //map mouse Y position to pupil position
 function drawPupils(){  //draw left eye
 	ellipse(mapX, mapY, 80, 80);
 	//noStroke()  //draw the inner circle in colour
-	text(mapX, centerEye, mapY);
+	//text(mapX, centerEye, mapY);
 	if (i==-200) { //draw the heterochrome effect - left eye
 		
 		fill(102, 255, 0);  //bright green fill

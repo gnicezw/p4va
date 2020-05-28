@@ -21,14 +21,17 @@ for (i = -200; i < 300;i+=400 ) {  //(draw eyes + 2 concentric pupils)* 2
 deltaY(); //map mouse Y position to pupil position
 
 	if ((i<0) && (mouseX < centerEye)) {//mouse is to the left of left Eye and drawing left eye
-		distX = mouseX - centerEye; //how far away is the mouse
-		mapX = map(distX, -centerEye, 0,  (centerEye - 80), centerEye); //mapping to control moved eye	
+		distX = mouseX - centerEye; //how far away is the mouse from left eye center
+		mapX = map(distX, -centerEye, 0,  (centerEye - 80), centerEye); //mapping the range of mouseX on the left of the eye
+		//to range move movement of pupil within the eye (80)
 		
-		line(pmouseX, pmouseY, centerEye, centery); 
-		for (var y = 0; y<401; y+=400) {  //draw both pupils for mouse to left
-			mapX+=y	//offset 400 between drawing
+		line(pmouseX, pmouseY, centerEye, centery); //testing line
+		for (var y = 0; y<401; y+=400) {  //draw both pupils for mouse to left of left eye
+			mapX+=y	//offset 400 to move right pupil to the same relative position in its eye
 			drawPupils(); //function defined below 2 modularise drawing the pupils
 			noFill(); //stop filling
+			i+=400; //incrementing the loop counter causes the other pupil to be drawn heterchromatic in the 2nd iteration of
+			//this for loop AND stops the second iteration of the parent for loop
 		}
 		
 	}
@@ -49,14 +52,19 @@ deltaY(); //map mouse Y position to pupil position
 	
 	else if ((i>0) && (mouseX > centerEye)) {//mouse is to the right of the right eye a
 		distX = mouseX - centerEye; //how far away is the mouse
-		mapX = map(distX, centerEye, 0,  (centerEye + 90), centerEye); //mapping to control moved eye	
-		ellipse(mapX, centery, 30, 30);
+		mapX = map(distX, centerEye, 0,  (centerEye + 90), centerEye); //mapping the range of mouseX on the left of the eye
+		//to range move movement of pupil within the eye (80)		
+		//ellipse(mapX, centery, 30, 30);  //testing ellipse
 		line(pmouseX, pmouseY, centerEye, centery); 
 		
 		for (var x = 0; x<401; x+=400) {  //draw both pupils
-			mapX-=x	//offset 400 between drawing
+			mapX-=x	//offset 400 between drawing to draw left pupil in the same relative position in that eye
 			drawPupils(); //function defined below 2 modularise drawing the pupils
 			noFill();//stop filling
+			//i-=400; //incrementing the loop counter causes the other pupil to be drawn heterchromatic in the 2nd iteration of
+			//this for loop AND stops the second iteration of the parent for loop
+			
+			
 		}
 		
 	}

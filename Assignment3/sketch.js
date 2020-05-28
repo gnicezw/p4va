@@ -37,10 +37,10 @@ deltaY(); //map mouse Y position to pupil position
 		centerMapX = map(mouseX, centerx-200, centerx+200, 0, 400); //where is the mouse in the gap
 		mapX=map(centerMapX, 0, 400, 0, 90 ); //map the gap to pupil position within the eye 
 		if (i<0) { //drawing left eye
-			mapX+=centerEye;
+			mapX+=centerEye;  // append the mapX to the position of center left eye
 		}
-		else if(i>0) {
-			mapX = centerEye - mapX;	
+		else if(i>0) {  //move the pupil to the left of the left pupil
+			mapX = (centerEye-90) + mapX;	
 		}
 		drawPupils();
 		noFill();

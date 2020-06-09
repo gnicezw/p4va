@@ -86,7 +86,7 @@ deltaY(); //map mouse Y position to pupil position
 	
 	else if ((cMouseX > centerR)) {//mouse is to the right of the right eye a
 		distX = cMouseX - centerR; //how far away is the mouse
-		mapX = map(distX, centerR, 0,  (centerR + 90), centerR); //mapping the range of mouseX on the left of the eye
+		mapX = map(distX, 0, (width-centerR) ,centerR,(centerR + 90)); //mapping the range of mouseX on the left of the eye
 		//to range move movement of pupil within the eye (80)		
 		//ellipse(mapX, centery, 30, 30);  //testing ellipse
 		line(pmouseX, pmouseY, centerR, centery); 

@@ -56,7 +56,7 @@ function drawMoorishPattern(size) {
   stroke(0);
   noFill();
   ellipseMode(CENTER);
-  ellipse(width / 2, height / 2, size, size);
+  ellipse(width / 2, height / 2, size, size);  //the result is not the same as if the code is simply changed
 }
 
 function drawEgyptianPattern(size) {

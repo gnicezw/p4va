@@ -8,7 +8,8 @@ function setup() {
 function draw() {
   background(220);
   translate(width / 2, height / 2);
-
+//without finding the two sides of the code block which need to syn
+//the code will continue to fail to execute
   beginShape();
   strokeWeight(2);
   noFill();

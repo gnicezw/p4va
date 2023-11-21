@@ -5,6 +5,6 @@
   function draw() {
     background(0);
     fill(255);
-    translate(mouseX,mouseY) //translate() moves the Origin to mouse position
+    translate(50,50) //translate() moves the Origin to mouse position
     rect(0,0,100,50)  //draw a rect at the origin
   }
